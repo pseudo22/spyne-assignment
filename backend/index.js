@@ -17,10 +17,9 @@ app.use(express.json())
 
 // cors setting
 
-const allowedOrigins = process.env.ALLOWED_ORIGIN
 
 app.use(cors({
-    origin : allowedOrigins
+    origin :process.env.ALLOWED_ORIGIN
 }))
 
 
@@ -36,8 +35,6 @@ app.use('/api/user' , userRoutes)
 app.use('/api/car' , carRoutes)
 
 
-
-
 // server
 app.listen(PORT , ()=>{
     console.log(`server running on port ${PORT}`)
@@ -46,4 +43,10 @@ app.listen(PORT , ()=>{
 
 //calling db
 connectDB()
+
+
+// api docs
+import { swaggerDocs, swaggerUi } from './swagger.js';
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 

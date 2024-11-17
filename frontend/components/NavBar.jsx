@@ -22,6 +22,9 @@ const Navbar = () => {
         <Link to="/global-search" className="hover:text-gray-300">
           Global Search
         </Link>
+        <a href={`${import.meta.env.VITE_BACKEND_URL}/docs`} target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
+          API Docs
+        </a>
       </div>
       <Logout />
     </nav>

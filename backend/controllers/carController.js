@@ -72,7 +72,6 @@ const addCar = asyncHandler(async (req, res) => {
 });
 
 
-
 const listCarByUser = asyncHandler(async (req , res)=>{
 
     const userId = req.userId.userId    
@@ -94,8 +93,6 @@ const listCarByUser = asyncHandler(async (req , res)=>{
     res.status(200).json(new ApiResponse(200 , carSet , 'Car fetched successfully'))
 
 })
-
-
 
 const globalSearchCar = asyncHandler(async (req, res) => {
     const { searchKeyword, selectedTag } = req.body;
@@ -160,10 +157,6 @@ const globalSearchCar = asyncHandler(async (req, res) => {
         res.status(500).json(new ApiResponse(500, null, 'Error while fetching cars'));
     }
 });
-
-
-
-
 
 
 const viewCar = asyncHandler(async (req , res)=>{
@@ -243,7 +236,6 @@ const updateCar = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, carInstance, 'Car updated successfully'));
 });
-
 
 
 const deleteCar = asyncHandler(async (req, res)=>{

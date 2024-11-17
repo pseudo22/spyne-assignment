@@ -57,12 +57,33 @@ export default function Login() {
   return (
     <>
       <ToastContainer />
+      
+      {/* Navbar */}
+      <nav className="bg-gray-800 p-4 shadow-md">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="text-white text-lg font-bold">
+            <span>Car Management</span>
+          </div>
+          <div>
+            <a
+              href={`${import.meta.env.VITE_BACKEND_URL}/docs`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gray-800 text-white p-4 hover:text-gray-300 rounded-lg transition-all duration-300 ease-in-out"
+            >
+              API Docs
+            </a>
+          </div>
+        </div>
+      </nav>
+  
+      {/* Main Content */}
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold text-center mb-4">Login to Your Account</h2>
-
+  
           {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-
+  
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
@@ -76,7 +97,7 @@ export default function Login() {
                 className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+  
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
               <input
@@ -89,7 +110,7 @@ export default function Login() {
                 className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+  
             <div>
               <button
                 type="submit"
@@ -99,7 +120,7 @@ export default function Login() {
               </button>
             </div>
           </form>
-
+  
           <div className="mt-4 text-center">
             <span className="text-sm">Don't have an account? </span>
             <Link to="/signup" className="text-indigo-600 hover:underline">Sign up here</Link>
@@ -108,4 +129,5 @@ export default function Login() {
       </div>
     </>
   );
+  
 }
