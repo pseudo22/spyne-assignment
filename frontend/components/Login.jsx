@@ -30,25 +30,24 @@ export default function Login() {
 
     try {
       const response = await axiosClient.post('/user/login', formData);
-      console.log(response.data.data.username);
+      console.log(response?.data?.data?.username);
       
       dispatch(login({
-        user: response.data.data.username,
-        accessToken: response.data.data.accessToken,
-        refreshToken: response.data.data.refreshToken
+        user: response?.data?.data?.username,
+        accessToken: response?.data?.data?.accessToken,
+        refreshToken: response?.data?.data?.refreshToken
       }));
 
-      
       toast.success('Login successful', {
         position: "top-center",
         autoClose: 3000,
       });
 
-      
       setTimeout(() => navigate('/car-list'), 3000);
     } catch (err) {
-      setError(err.response.data.message);
-      toast.error(err.response.data.message, {
+      const errorMessage = err?.response?.data?.message ?? 'An error occurred during login';
+      setError(errorMessage);
+      toast.error(errorMessage, {
         position: "top-center",
         autoClose: 3000,
       });

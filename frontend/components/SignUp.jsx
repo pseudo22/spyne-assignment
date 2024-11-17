@@ -39,9 +39,9 @@ export default function Signup() {
       const response = await axiosClient.post('/user/create', formData);
 
       dispatch(login({
-        user: response.data.user,
-        accessToken: response.data.accessToken,
-        refreshToken: response.data.refreshToken
+        user: response?.data?.user,
+        accessToken: response?.data?.accessToken,
+        refreshToken: response?.data?.refreshToken
       }));
 
       toast.success('User created successfully! Redirecting to dashboard...', {
@@ -51,8 +51,8 @@ export default function Signup() {
 
       setTimeout(() => navigate('/dashboard'), 3000);
     } catch (err) {
-      setError(err.response.data.message);
-      toast.error(err.response.data.message, {
+      setError(err?.response?.data?.message ?? 'An error occurred during signup.');
+      toast.error(err?.response?.data?.message ?? 'Signup failed', {
         position: "top-center",
         autoClose: 3000,
       });
@@ -139,4 +139,5 @@ export default function Signup() {
       </div>
     </>
   );
-};
+}
+

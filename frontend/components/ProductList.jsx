@@ -16,7 +16,6 @@ export default function ProductList() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  
   const [uniqueTags, setUniqueTags] = useState([]);
 
   useEffect(() => {
@@ -29,9 +28,8 @@ export default function ProductList() {
           dispatch(setCars(response.data.data));
           dispatch(setSearchResults(response.data.data)); 
 
-          
           const tags = response.data.data.reduce((acc, car) => {
-            car.tags.forEach(tag => {
+            car.tags?.forEach(tag => {
               if (!acc.includes(tag)) {
                 acc.push(tag);
               }
@@ -56,14 +54,12 @@ export default function ProductList() {
   }, [user?.user, dispatch]);
 
   useEffect(() => {
-    
     const filteredResults = cars.filter(
       (car) =>
         (searchTerm ? car.carName.toLowerCase().includes(searchTerm.toLowerCase()) : true) &&
-        (selectedTag ? car.tags.includes(selectedTag) : true)
+        (selectedTag ? car.tags?.includes(selectedTag) : true)
     );
 
-    
     const sortedResults = filteredResults.sort((a, b) => {
       if (sortOrder === 'asc') {
         return parseFloat(a.price) - parseFloat(b.price); 
@@ -89,7 +85,6 @@ export default function ProductList() {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Your Cars</h1>
 
-      
       <button
         onClick={() => navigate('/add-car')}
         className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4"
@@ -97,7 +92,6 @@ export default function ProductList() {
         Add New Car
       </button>
 
-      
       <input
         type="text"
         placeholder="Search by car name..."
@@ -106,7 +100,6 @@ export default function ProductList() {
         className="w-full p-2 border border-gray-300 rounded-md mb-4"
       />
 
-      
       <select
         value={selectedTag}
         onChange={(e) => setSelectedTag(e.target.value)}
@@ -120,7 +113,6 @@ export default function ProductList() {
         ))}
       </select>
 
-      
       <select
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value)}
@@ -130,7 +122,7 @@ export default function ProductList() {
         <option value="desc">Sort by Price: High to Low</option>
       </select>
 
-      {loading && <p>Loading cars...</p>}
+      {loading && <p className="text-blue-500">Loading cars...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       {searchResults.length === 0 && !loading ? (
@@ -153,9 +145,8 @@ export default function ProductList() {
               <p className="mb-2">Price: ${car.price}</p>
               <p className="mb-2">Description: {car.description}</p>
 
-              
               <div className="flex flex-wrap gap-2 mt-4">
-                {car.tags.map((tag, index) => (
+                {car.tags?.map((tag, index) => (
                   <span
                     key={index}
                     className="px-3 py-1 text-sm font-medium rounded-full bg-blue-500 text-white"

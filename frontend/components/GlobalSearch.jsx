@@ -8,22 +8,30 @@ export default function GlobalSearch() {
   const searchResults = useSelector((state) => state.car.searchResults)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTag, setSelectedTag] = useState('')
-  const [sortOrder, setSortOrder] = useState('asc') 
+  const [sortOrder, setSortOrder] = useState('asc')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   
   const fetchCars = async (searchKeyword = '', tag = '') => {
     setLoading(true)
-    setError('')
+    setError('')  // Reset the error message on new request
     try {
         const response = await axiosClient.post('/car/search', {
             searchKeyword,
             selectedTag: tag,
         })
 
-        let sortedResults = response?.data?.data ?? [] 
+        let sortedResults = response?.data?.data ?? []  // Optional chaining to handle undefined or null data
 
+        // Handle empty results
+        if (sortedResults.length === 0) {
+          setError('No cars found matching the search criteria.')
+          dispatch(setSearchResults([]))
+          return
+        }
+
+        // Sort results based on the selected order
         if (sortOrder === 'asc') {
             sortedResults = sortedResults.sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
         } else {
@@ -32,16 +40,29 @@ export default function GlobalSearch() {
 
         dispatch(setSearchResults(sortedResults))
     } catch (err) {
-        setError(err.response?.data?.message ?? 'Error fetching search results')
-        dispatch(setSearchResults([])) 
+        console.error('Error fetching cars:', err)
+
+        // Handle different types of errors
+        if (err.response) {
+          setError(err.response?.data?.message ?? 'Error fetching search results')  // Optional chaining for response
+        } else if (err.request) {
+          setError('Network error. Please check your internet connection.')
+        } else {
+          setError('An unexpected error occurred. Please try again later.')
+        }
+        dispatch(setSearchResults([]))  // Reset search results on error
     } finally {
         setLoading(false)
     }
-}
+  }
 
 
   
   const handleSearch = () => {
+    if (searchTerm.trim() === '') {
+      setError('Search term cannot be empty.')
+      return
+    }
     fetchCars(searchTerm, selectedTag)
   }
 
@@ -81,6 +102,7 @@ export default function GlobalSearch() {
           <option key={tag} value={tag}>{tag}</option>
         ))}
       </select>
+
       <select
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value)}
@@ -101,7 +123,7 @@ export default function GlobalSearch() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      {searchResults.length === 0 && !loading ? (
+      {searchResults.length === 0 && !loading && !error ? (
         <p>No cars found matching the search criteria.</p>
       ) : (
         <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

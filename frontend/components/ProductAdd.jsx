@@ -47,22 +47,18 @@ export default function AddCar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    
     setError('');
     setLoading(true); 
     setSuccess(false); 
   
-    
     const formDataToSend = new FormData();
   
-    
     for (const key in formData) {
       if (key !== 'images') {
         formDataToSend.append(key, formData[key]);
       }
     }
   
-    
     for (let i = 0; i < formData.images.length; i++) {
       formDataToSend.append('images', formData.images[i]);
     }
@@ -74,23 +70,21 @@ export default function AddCar() {
         },
       });
   
-      
-      toast.success(response?.data.message);
+      toast.success(response?.data?.message); // Optional chaining for response data
       setSuccess(true); 
   
-      
       setTimeout(() => {
         navigate('/car-list');
       }, 3000); 
   
     } catch (err) {
+      const errorMessage = err?.response?.data?.message || 'Something went wrong!'; // Safe access with optional chaining
+      setError(errorMessage); // Set error message from response or default
       console.log(err);
-      setError(err.response?.data?.message || 'Something went wrong!');
     } finally {
       setLoading(false); 
     }
   };
-  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
