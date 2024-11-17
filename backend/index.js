@@ -20,14 +20,7 @@ app.use(express.json())
 const allowedOrigins = process.env.ALLOWED_ORIGIN
 
 app.use(cors({
-    origin : function (origin , cb){
-        if(allowedOrigins.indexOf(origin) !== -1){
-            cb(null , true)
-        }
-        else{
-            cb(new Error('Origin not allowed'))
-        }
-    }
+    origin : allowedOrigins
 }))
 
 
