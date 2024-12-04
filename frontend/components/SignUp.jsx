@@ -49,7 +49,7 @@ export default function Signup() {
         autoClose: 3000,
       });
 
-      setTimeout(() => navigate('/dashboard'), 3000);
+      setTimeout(() => navigate('/login'), 3000);
     } catch (err) {
       setError(err?.response?.data?.message ?? 'An error occurred during signup.');
       toast.error(err?.response?.data?.message ?? 'Signup failed', {
@@ -133,7 +133,7 @@ export default function Signup() {
 
           <div className="mt-4 text-center">
             <span className="text-sm">Already have an account? </span>
-            <Link to="/login" className="text-indigo-600 hover:underline">Login here</Link> {/* Updated to use Link */}
+            <Link to="/login" className="text-indigo-600 hover:underline">Login here</Link>
           </div>
         </div>
       </div>
